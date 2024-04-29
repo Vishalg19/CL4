@@ -1,0 +1,24 @@
+mongo
+
+use mydatabase
+
+
+db.createCollection("mycollection")
+
+
+db.mycollection.insertOne({ name: "John", age: 30, city: "New York" })
+
+
+
+db.mycollection.find()
+
+
+db.mycollection.find({ age: { $gt: 25 } })
+
+
+
+db.mycollection.updateOne({ name: "John" }, { $set: { age: 35 } })
+
+
+
+db.mycollection.deleteOne({ name: "John" })
