@@ -1,26 +1,34 @@
 import pandas as pd
-from sklearn import preprocessing 
+
+df = pd.read_csv('iris_data.csv')
+#Seperating target variable
+
+X = df[['SepalLengthCm','SepalWidthCm','PetalLengthCm','PetalWidthCm']]
+Y = df['Species']
+
+X.head()
+Y.head()
+
 from sklearn.model_selection import train_test_split
+
+X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size= 0.2, random_state= 42)
+
 from sklearn.naive_bayes import GaussianNB
-from sklearn.metrics import precision_score,confusion_matrix,accuracy_score,recall_score,classification_report
-df = pd.read_csv("Iris (1).csv")
-df.head()
-encoder = preprocessing.LabelEncoder()
-df["Species"]=encoder.fit_transform(df["Species"])
-df
-x = df.iloc[:, [1, 4]].values
-y = df.iloc[:, 5].values
-xtrain, xtest, ytrain, ytest = train_test_split(x, y, test_size = 0.25, random_state = 0)
-classifier = GaussianNB()    
-classifier.fit(xtrain, ytrain)
-ypred=classifier.predict(xtest)
-confusion=confusion_matrix(ytest,ypred)
-confusion
-accuracy=accuracy_score(ytest,ypred)
+
+#initialize model 
+model = GaussianNB()
+
+model.fit(X_train,Y_train)
+
+#predictions and Evaluation
+
+from sklearn.metrics import accuracy_score, classification_report
+
+Y_pred = model.predict(X_test)
+
+accuracy = accuracy_score(Y_test,Y_pred)
+report = classification_report(Y_test,Y_pred)
+
 print(accuracy)
-precision=precision_score(ytest,ypred,average='micro')
-print(precision)
-recall=recall_score(ytest,ypred,average='micro')
-recall
-cl_report = classification_report(ytest,ypred)
-print(cl_report)
+print('\n')
+report
